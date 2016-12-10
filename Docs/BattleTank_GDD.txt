@@ -1,0 +1,41 @@
+Battle Tank - Section 04 Udemy Unreal Course
+============================================
+
+Concept
+-------
+
+Open-world head-to-head tank combat game where terrain is used for tactical advantage.  The focus will be on game-play and feel.
+
+Rules
+-----
+	- free movement of tank anywhere in the terrain.
+	- arena will be contained by mountains.
+	- players start with finite health and ammo
+
+Requirements
+============
+
++ item
+++ stretch item
+
+01 Asset List
+-------------
+	+ sfx : gun firing
+		explosion
+		barrel moving
+		turret moving
+		running engine sound
+		idle engine sound
+	+ Mesh : tank ( traks, body, turret, barrel )
+		primative buildings ( maybe just use real primitives )
+
+	+ Textures : minimal
+
+	+ Music : background 
+
+02 User Interface
+-----------------
+
+	+ main menu
+	+ arena / battle UI
+
