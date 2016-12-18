@@ -37,7 +37,75 @@ void ATankPlayerController::AimTowardsCrosshair()
     if ( ! ControlledTank ) { return; }
     
     // get world location of linetrace through crosshair
-    // if it hits the landscape
-        // tell controlled tank to aim at this point
+    if ( GetSightRayHitLocation(HitLocation) )
+    {
+        UE_LOG(LogTemp, Warning, TEXT("HitLoc: %s"), *HitLocation.ToString() );
+        // TODO tell controlled tank to aim at this point
+    }
 
 }
+
+bool ATankPlayerController::GetSightRayHitLocation( FVector& OutLocation ) const
+{
+    // find crosshair position
+    int32 ViewportSizeX, ViewportSizeY;
+    GetViewportSize(ViewportSizeX, ViewportSizeY);
+    auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+    
+    // "De-project" screen position of the crosshair into world direction
+    FVector LookDirection;
+    if ( GetLookDirection(ScreenLocation, LookDirection) )
+    {
+        // Line-trace along that look direction and see what we hit up to max range
+        GetLookVectorHitLocation(LookDirection, OutLocation);
+    }
+    
+    
+    return true;
+}
+
+bool ATankPlayerController::GetLookDirection( FVector2D ScreenLocation, FVector& LookDirection ) const
+{
+    FVector CameraWorldLoc; // discarded
+    return DeprojectScreenPositionToWorld(
+        ScreenLocation.X,
+        ScreenLocation.Y,
+        CameraWorldLoc,
+        LookDirection
+     );
+}
+
+
+bool ATankPlayerController::GetLookVectorHitLocation ( FVector LookDirection, FVector& HitLocation ) const
+{
+    
+    FHitResult HitResult;
+    auto StartLocation = PlayerCameraManager->GetCameraLocation();
+    auto EndLocation = StartLocation + ( LookDirection * MaxRange );
+    
+    if (
+        GetWorld()->LineTraceSingleByChannel(
+            HitResult,
+            StartLocation,
+            EndLocation,
+            ECollisionChannel::ECC_Visibility
+        )
+    )
+    {
+        HitLocation = HitResult.Location;
+        return true;
+    }
+    
+    HitLocation = FVector(0.0,0.0,0.0);
+    return false;
+    
+}
+
+
+
+
+
+
+
+
+
