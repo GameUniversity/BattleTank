@@ -37,7 +37,6 @@ private:
 
     ATank* ControlledTank = nullptr;
     float TickTime = 0.0f;
-    FVector HitLocation;
 
     UPROPERTY(EditAnywhere)
     float CrossHairXLocation = 0.5; // coincides with PlayerUI_BP that anchors crosshair to halfway horizontally

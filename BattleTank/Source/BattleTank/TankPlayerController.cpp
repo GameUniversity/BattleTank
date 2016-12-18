@@ -37,6 +37,7 @@ void ATankPlayerController::AimTowardsCrosshair()
     if ( ! ControlledTank ) { return; }
     
     // get world location of linetrace through crosshair
+    FVector HitLocation;
     if ( GetSightRayHitLocation(HitLocation) )
     {
         GetControlledTank()->AimAt(HitLocation);
