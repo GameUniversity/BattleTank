@@ -39,9 +39,36 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector TargetLocation) const
+void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed ) const
 {
-    auto TankName = GetOwner()->GetName();
-    auto BarrelLocation = Barrel->GetComponentLocation();
-    UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *TankName, *TargetLocation.ToString(), *BarrelLocation.ToString() );
+
+    // if we have no barrel, there is no point
+    if ( !Barrel ) { return; }
+    
+    FVector OutLaunchVelocity;
+    FCollisionResponseParams OutCollisionParams;
+    TArray< AActor * > ActorsToIgnore;
+    
+    
+    FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+    
+    // calculate the OutLaunchVelocity
+//    GPS.SuggestProjectileVelocity(
+//        this,
+//        OutLaunchVelocity,
+//        StartLocation,
+//        TargetLocation,
+//        LaunchSpeed,
+//        false, // High Arc
+//        100.0, // Collision Radius
+//        0, // Override Gravity Z 0 == no
+//        ESuggestProjVelocityTraceOption::DoNotTrace,
+//        OutCollisionParams, // don't use yet
+//        ActorsToIgnore,  // don't use yet
+//        true // draw debug
+//    );
+    
+    auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+    
+    UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), *AimDirection.ToString() );
 }
