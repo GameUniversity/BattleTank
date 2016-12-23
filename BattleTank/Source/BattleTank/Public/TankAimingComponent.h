@@ -27,6 +27,5 @@ public:
 	
 private:
     UStaticMeshComponent* Barrel = nullptr;
-//    UGameplayStatics GPS;
 	
 };
