@@ -23,7 +23,7 @@ private:
 
 // How many degress the barrel can move per second
 UPROPERTY(EditAnywhere, Category = Setup )
-float MaxDegreesPerSecond = 20.0;
+float MaxDegreesPerSecond = 5.0;
 
 // Minimum elevation in degrees
 UPROPERTY(EditAnywhere, Category = Setup )
