@@ -19,7 +19,13 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
+    
+    void LaunchProjectile(float Speed);
 
+
+protected:
+
+    UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 	
 	
 };
