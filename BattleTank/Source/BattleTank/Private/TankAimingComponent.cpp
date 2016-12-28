@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -10,7 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true; // TODO should we tick?
+	PrimaryComponentTick.bCanEverTick = false; 
 
 	// ...
 }
@@ -21,11 +22,20 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
     Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+    Turret = TurretToSet;
+}
+
+
 void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed )
 {
 
     // if we have no barrel, there is no point
     if ( !Barrel ) { return; }
+    
+    // if we have no turret, there is no point
+    if ( !Turret ) { return; }
     
     auto Time = GetWorld()->GetTimeSeconds();
     auto Me = GetOwner()->GetName();
@@ -50,13 +60,13 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed )
     {
         auto AimDirection = OutLaunchVelocity.GetSafeNormal();
         MoveBarrelTowards( AimDirection );
-        UE_LOG(LogTemp, Warning, TEXT("%f: [ %s ] Aim Solution Found [ %s ]"), Time, *Me, *TargetLocation.ToString() );
+        //UE_LOG(LogTemp, Warning, TEXT("%f: [ %s ] Aim Solution Found [ %s ]"), Time, *Me, *TargetLocation.ToString() );
 
     }
     else
     {
 
-        UE_LOG(LogTemp, Warning, TEXT("%f: [ %s ] NO Aim Solution Found [ %s ]"), Time, *Me, *TargetLocation.ToString() );
+        //UE_LOG(LogTemp, Warning, TEXT("%f: [ %s ] NO Aim Solution Found [ %s ]"), Time, *Me, *TargetLocation.ToString() );
     }
 }
 
@@ -67,7 +77,8 @@ void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
     
-    Barrel->Elevate( DeltaRotator.Pitch ); // TODO remove magic number
+    Barrel->Elevate( DeltaRotator.Pitch );
+    Turret->Rotate( DeltaRotator.Yaw );
 
 }
 
