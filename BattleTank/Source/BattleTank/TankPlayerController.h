@@ -37,7 +37,6 @@ public:
     
 private:
 
-    ATank* ControlledTank = nullptr;
     float TickTime = 0.0f;
 
     UPROPERTY(EditDefaultsOnly)
