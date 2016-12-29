@@ -19,5 +19,9 @@ public:
     // Sets a throttle value between -1 and +1
     UFUNCTION(BlueprintCallable, Category = Input)
     void SetThrottle(float Throttle);
+    
+    // Max force per track, in newtons
+    UPROPERTY(EditDefaultsOnly)
+    float TrackMaxDrivingForce = 400000; // Assume 40k kg with 1g acceleration
 	
 };
