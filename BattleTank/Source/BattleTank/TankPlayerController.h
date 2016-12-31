@@ -16,11 +16,16 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+    
+protected:
+    UFUNCTION(BlueprintCallable, Category = "Setup")
+    ATank* GetControlledTank() const;
+    
 
-public:
+private:
+
     virtual void BeginPlay() override;
     virtual void Tick( float DeltaSeconds ) override;
-    ATank* GetControlledTank() const;
     
     // Move tank barrel toward where the shot would hit
     // where the world intersects with the crosshair
@@ -35,10 +40,6 @@ public:
     // perform line trace along look direction ( per crosshair ) and see what we hit
     bool GetLookVectorHitLocation ( FVector LookDirection, FVector& WorldHitLocation ) const;
     
-private:
-
-    float TickTime = 0.0f;
-
     UPROPERTY(EditDefaultsOnly)
     float CrossHairXLocation = 0.5; // coincides with PlayerUI_BP that anchors crosshair to halfway horizontally
     

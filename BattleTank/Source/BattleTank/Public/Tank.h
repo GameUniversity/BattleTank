@@ -20,19 +20,21 @@ class BATTLETANK_API ATank : public APawn
 public:
     void AimAt(FVector HitLocation);
     
-    UFUNCTION(BlueprintCallable, Category = Setup)
+    UFUNCTION(BlueprintCallable, Category = "Setup")
     void SetBarrelReference(UTankBarrel* BarrelToSet);
     
-    UFUNCTION(BlueprintCallable, Category = Setup)
+    UFUNCTION(BlueprintCallable, Category = "Setup")
     void SetTurretReference(UTankTurret* TurretToSet);
     
-    UFUNCTION(BlueprintCallable, Category = Fire)
+    UFUNCTION(BlueprintCallable, Category = "Fire")
     void Fire();
     
 protected:
+
+    UPROPERTY(BlueprintReadOnly, Category = "Setup")
     UTankAimingComponent* TankAimingComponent = nullptr;
     
-    UPROPERTY(BlueprintReadOnly, Category = Setup)
+    UPROPERTY(BlueprintReadOnly, Category = "Setup")
     UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
