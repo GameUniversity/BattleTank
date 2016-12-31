@@ -21,4 +21,7 @@ private:
     virtual void Tick( float DeltaSeconds ) override;
     
     ATank* TargettedTank = nullptr;
+    
+    // how close the tank needs to get to the target in cm
+    float AcceptanceRadius = 3000;
 };
