@@ -22,15 +22,15 @@ public:
 private:
 
 // How many degress the barrel can move per second
-UPROPERTY(EditDefaultsOnly, Category = Setup )
+UPROPERTY(EditDefaultsOnly, Category = "Setup" )
 float MaxDegreesPerSecond = 8.0;
 
 // Minimum elevation in degrees
-UPROPERTY(EditDefaultsOnly, Category = Setup )
+UPROPERTY(EditDefaultsOnly, Category = "Setup" )
 float MinElevationDegrees = 0.0;
 
 // Maximum elevation in degrees
-UPROPERTY(EditDefaultsOnly, Category = Setup )
+UPROPERTY(EditDefaultsOnly, Category = "Setup" )
 float MaxElevationDegrees = 40.0;
 	
 };
