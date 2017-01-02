@@ -24,10 +24,10 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed )
 {
 
     // if we have no barrel, there is no point
-    if ( !Barrel ) { return; }
+    if ( ! ensure(Barrel) ) { return; }
     
     // if we have no turret, there is no point
-    if ( !Turret ) { return; }
+    if ( ! ensure(Turret) ) { return; }
     
     auto Time = GetWorld()->GetTimeSeconds();
     auto Me = GetOwner()->GetName();
@@ -59,7 +59,7 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed )
 void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
 {
 
-    if ( !Barrel || !Turret ) { return; }
+    if ( ! ensure(Barrel && Turret) ) { return; }
     
     // work out difference between current barrel rotation, and AimDirection
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
