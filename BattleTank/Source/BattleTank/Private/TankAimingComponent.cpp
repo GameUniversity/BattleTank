@@ -20,7 +20,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
     Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed )
+void UTankAimingComponent::AimAt(FVector TargetLocation)
 {
 
     // if we have no barrel, there is no point
