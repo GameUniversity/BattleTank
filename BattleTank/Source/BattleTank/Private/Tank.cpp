@@ -49,9 +49,10 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-
     // needed for BP event BeginPlay to run
 	Super::BeginPlay();
+    
+    TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
     
 }
 
