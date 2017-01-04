@@ -23,6 +23,10 @@ void ATankPlayerController::Tick( float DeltaSeconds )
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
+
+    // depossessing will cause pawn to be missing ergo crashing in pie
+    if ( !GetPawn() ) { return; }
+    
     auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
     if ( ! ensure(AimComponent) ) { return; }
     
