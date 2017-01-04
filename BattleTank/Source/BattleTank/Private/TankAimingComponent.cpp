@@ -16,19 +16,26 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
     // so that first fire is after a reload period
-    LastFireTime = FPlatformTime::Seconds();
+    LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
                                          FActorComponentTickFunction *ThisTickFunction)
 {
-    if ( (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds )
+
+    if ( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds )
     {
         FiringState = EFiringState::Reloading;
     }
-    
-    // TODO Handle aiming and locked states
+    else if ( IsBarrelMoving() )
+    {
+        FiringState = EFiringState::Aiming;
+    }
+    else
+    {
+        FiringState = EFiringState::Locked;
+    }
 
 }
 
@@ -69,8 +76,8 @@ void UTankAimingComponent::AimAt(FVector TargetLocation)
     // calculate the OutLaunchVelocity
     if ( bHaveAimSolution )
     {
-        auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-        MoveBarrelTowards( AimDirection );
+        AimingDirection = OutLaunchVelocity.GetSafeNormal();
+        MoveBarrelTowards( AimingDirection );
     }
 
 }
@@ -80,6 +87,8 @@ void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
 
     if ( ! ensure(Barrel && Turret) ) { return; }
     
+    // AimingDirection = AimDirection;
+    
     // work out difference between current barrel rotation, and AimDirection
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
@@ -88,6 +97,17 @@ void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
     Barrel->Elevate( DeltaRotator.Pitch );
     Turret->Rotate( DeltaRotator.Yaw );
 
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+
+    // if we have no barrel, it can't exactly be moving
+    if ( !ensure(Barrel) ) { return false; }
+    
+    auto BarrelForward = Barrel->GetForwardVector();
+    
+    return !BarrelForward.Equals(AimingDirection, 0.01);
 }
 
 void UTankAimingComponent::Fire()
@@ -106,6 +126,7 @@ void UTankAimingComponent::Fire()
         );
         
         Projectile->LaunchProjectile(LaunchSpeed);
+        LastFireTime = GetWorld()->GetTimeSeconds();
     }
 }
 
