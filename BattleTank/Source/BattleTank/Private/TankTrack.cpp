@@ -39,7 +39,7 @@ void UTankTrack::OnHit (
              const FHitResult& Hit
             )
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s -> %s on the ground"), *GetOwner()->GetName(), *GetName() );
+    //UE_LOG(LogTemp, Warning, TEXT("%s -> %s on the ground"), *GetOwner()->GetName(), *GetName() );
 }
 
 void UTankTrack::SetThrottle(float Throttle)

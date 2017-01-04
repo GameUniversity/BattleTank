@@ -31,20 +31,27 @@ private:
     // where the world intersects with the crosshair
     void AimTowardsCrosshair();
     
-    // return true if hit landscape, by-ref filling oif 3d worldspace coords
-    bool GetSightRayHitLocation( FVector& OutLocation ) const;
+//    // return true if hit landscape, by-ref filling oif 3d worldspace coords
+//    // DEPRECATED
+//    bool GetSightRayHitLocation( FVector& OutLocation ) const;
+//    
+//    // get the direction that the crosshair is "looking" in as a unit vector
+//    bool GetLookDirection( FVector2D ScreenLocation, FVector& LookDirection ) const;
+//    
+//    // perform line trace along look direction ( per crosshair ) and see what we hit
+//    bool GetLookVectorHitLocation ( FVector LookDirection, FVector& WorldHitLocation ) const;
     
-    // get the direction that the crosshair is "looking" in as a unit vector
-    bool GetLookDirection( FVector2D ScreenLocation, FVector& LookDirection ) const;
-    
-    // perform line trace along look direction ( per crosshair ) and see what we hit
-    bool GetLookVectorHitLocation ( FVector LookDirection, FVector& WorldHitLocation ) const;
+    // optimised way of getting crosshair hit
+    bool GetCrosshairTraceHit(FString& ObjectHit, FVector& HitLocation ) const;
     
     UPROPERTY(EditDefaultsOnly)
     float CrossHairXLocation = 0.5; // coincides with PlayerUI_BP that anchors crosshair to halfway horizontally
     
     UPROPERTY(EditDefaultsOnly)
     float CrossHairYLocation = 0.33333; // coincides with PlayerUI_BP that anchors crosshair to 1/3 from the top
+    
+    UPROPERTY(EditAnywhere)
+    bool DebugTargetting = false;
     
     // range in cm 10k == 1000000cm
     UPROPERTY(EditDefaultsOnly)
