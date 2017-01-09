@@ -24,7 +24,12 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
                                          FActorComponentTickFunction *ThisTickFunction)
 {
 
-    if ( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds )
+    if ( AmmoCount <= 0 )
+    {
+        FiringState = EFiringState::OutOfAmmo;
+        AmmoCount = 0;
+    }
+    else if ( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds )
     {
         FiringState = EFiringState::Reloading;
     }
@@ -120,13 +125,13 @@ bool UTankAimingComponent::IsBarrelMoving()
     
     auto BarrelForward = Barrel->GetForwardVector();
     
-    return !BarrelForward.Equals(AimingDirection, 0.01);
+    return !BarrelForward.Equals(AimingDirection, 0.1);
 }
 
 void UTankAimingComponent::Fire()
 {
     
-    if (  FiringState != EFiringState::Reloading )
+    if (  FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming )
     {
         if ( ! ensure(Barrel) ) { return; }
         if ( ! ensure(ProjectileBlueprint) ) { return; }
@@ -140,6 +145,9 @@ void UTankAimingComponent::Fire()
         
         Projectile->LaunchProjectile(LaunchSpeed);
         LastFireTime = GetWorld()->GetTimeSeconds();
+        
+        // decrease ammo when we fire
+        --AmmoCount;
     }
 }
 
@@ -147,6 +155,12 @@ EFiringState UTankAimingComponent::GetFiringState() const
 {
     return FiringState;
 }
+
+int UTankAimingComponent::GetAmmoCount() const
+{
+    return AmmoCount;
+}
+
 
 
 
