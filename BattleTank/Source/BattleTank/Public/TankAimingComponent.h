@@ -67,6 +67,7 @@ private:
     UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float ReloadTimeInSeconds = 3.0;
     
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
     int AmmoCount = 5;
 
     float LastFireTime = 12345.0;
