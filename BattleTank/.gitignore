@@ -66,23 +66,3 @@ DerivedDataCache/*
 # Plain temp files
 *.swp
 *.tmp
-
-# Custom Excludes for StarterContent
-Content/StarterContent/HDRI/*
-Content/StarterContent/Maps/*
-Content/StarterContent/Architecture/*
-Content/StarterContent/Audio/*
-Content/StarterContent/Blueprints/*
-Content/StarterContent/Particles/*
-Content/StarterContent/Props/*
-Content/StarterContent/Shapes/*
-
-
-# We want to ignore the majority of the starter content, only excepting what we want
-Content/StarterContent/Textures/*
-Content/StarterContent/Materials/*
-
-# Add in the exceptions that we are actually using
-!Content/StarterContent/Textures/T_Ground_Grass_D.uasset
-!Content/StarterContent/Textures/T_Ground_Gravel_D.uasset
-
