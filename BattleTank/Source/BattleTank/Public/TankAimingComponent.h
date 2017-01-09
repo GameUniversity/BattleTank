@@ -38,7 +38,7 @@ public:
     EFiringState GetFiringState() const;
     
     UFUNCTION(BlueprintCallable, Category = "State" )
-    int GetAmmoCount() const;
+    int32 GetAmmoCount() const;
     
 protected:
     UPROPERTY(BlueprintReadOnly, Category = "State" )
@@ -68,7 +68,7 @@ private:
     float ReloadTimeInSeconds = 3.0;
     
     UPROPERTY(EditDefaultsOnly, Category = "Firing")
-    int AmmoCount = 5;
+    int32 AmmoCount = 5;
 
     float LastFireTime = 12345.0;
     

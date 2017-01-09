@@ -31,16 +31,6 @@ private:
     // where the world intersects with the crosshair
     void AimTowardsCrosshair();
     
-//    // return true if hit landscape, by-ref filling oif 3d worldspace coords
-//    // DEPRECATED
-//    bool GetSightRayHitLocation( FVector& OutLocation ) const;
-//    
-//    // get the direction that the crosshair is "looking" in as a unit vector
-//    bool GetLookDirection( FVector2D ScreenLocation, FVector& LookDirection ) const;
-//    
-//    // perform line trace along look direction ( per crosshair ) and see what we hit
-//    bool GetLookVectorHitLocation ( FVector LookDirection, FVector& WorldHitLocation ) const;
-    
     // optimised way of getting crosshair hit
     bool GetCrosshairTraceHit(FString& ObjectHit, FVector& HitLocation ) const;
     
