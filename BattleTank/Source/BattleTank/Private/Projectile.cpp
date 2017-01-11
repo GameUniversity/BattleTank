@@ -8,7 +8,7 @@
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
     
     CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
     SetRootComponent(CollisionMesh);
@@ -16,15 +16,16 @@ AProjectile::AProjectile()
     CollisionMesh->SetVisibility(false);
     
     LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-    LaunchBlast->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+    LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
     
     // we want to create the movement component but not to take effect right away
     ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
     ProjectileMovementComponent->bAutoActivate = false;
     
-    
-   
+    ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+    ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    ImpactBlast->bAutoActivate = false;
 
 }
 
@@ -32,7 +33,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+    CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit );
 }
 
 // Called every frame
@@ -46,5 +47,17 @@ void AProjectile::LaunchProjectile(float Speed)
 {
     ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed );
     ProjectileMovementComponent->Activate();
+}
+
+void AProjectile::OnHit (
+                        UPrimitiveComponent* HitComponent,
+                        AActor* OtherActor,
+                        UPrimitiveComponent* OtherComponent,
+                        FVector NormalImpulse,
+                        const FHitResult& Hit
+                        )
+{
+    LaunchBlast->Deactivate();
+    ImpactBlast->Activate();
 }
 

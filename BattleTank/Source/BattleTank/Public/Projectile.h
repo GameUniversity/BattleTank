@@ -32,6 +32,19 @@ protected:
     
     UPROPERTY(VisibleAnywhere, Category = "Firing")
     UParticleSystemComponent* LaunchBlast = nullptr;
+    
+    UPROPERTY(VisibleAnywhere, Category = "Firing")
+    UParticleSystemComponent* ImpactBlast = nullptr;
 	
-	
+    UFUNCTION()
+    void OnHit
+    (
+     UPrimitiveComponent* HitComponent,
+     AActor* OtherActor,
+     UPrimitiveComponent* OtherComponent,
+     FVector NormalImpulse,
+     const FHitResult& Hit
+     
+     );
+    
 };
