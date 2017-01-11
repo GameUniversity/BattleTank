@@ -27,14 +27,17 @@ protected:
 
     UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
     
-    UPROPERTY(VisibleAnywhere, Category = "Firing")
+    UPROPERTY(VisibleAnywhere, Category = "Components")
     UStaticMeshComponent* CollisionMesh = nullptr;
     
-    UPROPERTY(VisibleAnywhere, Category = "Firing")
+    UPROPERTY(VisibleAnywhere, Category = "Components")
     UParticleSystemComponent* LaunchBlast = nullptr;
     
-    UPROPERTY(VisibleAnywhere, Category = "Firing")
+    UPROPERTY(VisibleAnywhere, Category = "Components")
     UParticleSystemComponent* ImpactBlast = nullptr;
+    
+    UPROPERTY(VisibleAnywhere, Category = "Components")
+    URadialForceComponent* ExplosionForce = nullptr;
 	
     UFUNCTION()
     void OnHit
