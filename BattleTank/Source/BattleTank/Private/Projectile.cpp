@@ -63,5 +63,23 @@ void AProjectile::OnHit (
     LaunchBlast->Deactivate();
     ImpactBlast->Activate();
     ExplosionForce->FireImpulse();
+    
+    FTimerHandle TimerHandle;
+    GetWorld()->GetTimerManager().SetTimer(
+        TimerHandle,
+        this,
+        &AProjectile::ProjectileExpired,
+        DestroyDelay,
+        false
+   );
+    
+    
+}
+
+// maybe private or public?
+void AProjectile::ProjectileExpired()
+{
+    UE_LOG(LogTemp, Warning, TEXT("PROJECTILE EXPIRED"));
+    Destroy();
 }
 

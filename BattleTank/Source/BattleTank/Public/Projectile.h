@@ -21,6 +21,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
     
     void LaunchProjectile(float Speed);
+    
 
 
 protected:
@@ -38,6 +39,11 @@ protected:
     
     UPROPERTY(VisibleAnywhere, Category = "Components")
     URadialForceComponent* ExplosionForce = nullptr;
+    
+    // Number of seconds from the point of impact that the projectile will
+    // destroy itself
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
+    float DestroyDelay = 1.0;
 	
     UFUNCTION()
     void OnHit
@@ -49,5 +55,8 @@ protected:
      const FHitResult& Hit
      
      );
+    
+    UFUNCTION()
+    void ProjectileExpired();
     
 };
