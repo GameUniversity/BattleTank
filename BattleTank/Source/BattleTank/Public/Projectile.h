@@ -42,8 +42,11 @@ protected:
     
     // Number of seconds from the point of impact that the projectile will
     // destroy itself
-    UPROPERTY(EditDefaultsOnly, Category = "Firing")
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
     float DestroyDelay = 1.0;
+    
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
+    float ProjectileDamage = 10.0;
 	
     UFUNCTION()
     void OnHit

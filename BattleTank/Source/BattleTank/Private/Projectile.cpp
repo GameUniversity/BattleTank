@@ -64,6 +64,16 @@ void AProjectile::OnHit (
     ImpactBlast->Activate();
     ExplosionForce->FireImpulse();
     
+    // allows for damage to be applied to the ATank
+    UGameplayStatics::ApplyRadialDamage(
+        this,
+        ProjectileDamage,
+        GetActorLocation(),
+        ExplosionForce->Radius, // for consistency
+        UDamageType::StaticClass(), // look at online docs for why
+        TArray<AActor*>()
+    );
+    
     FTimerHandle TimerHandle;
     GetWorld()->GetTimerManager().SetTimer(
         TimerHandle,
