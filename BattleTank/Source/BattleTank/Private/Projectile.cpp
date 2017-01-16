@@ -89,7 +89,7 @@ void AProjectile::OnHit (
 // maybe private or public?
 void AProjectile::ProjectileExpired()
 {
-    UE_LOG(LogTemp, Warning, TEXT("PROJECTILE EXPIRED"));
+    //UE_LOG(LogTemp, Warning, TEXT("PROJECTILE EXPIRED"));
     Destroy();
 }
 
