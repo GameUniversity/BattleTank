@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "TankPlayerController.h"
+#include "Tank.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -14,6 +15,28 @@ void ATankPlayerController::BeginPlay()
     FoundAimingComponent(AimComponent);
     
 }
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+    Super::SetPawn(InPawn);
+    
+    if(InPawn)
+    {
+        auto PossessedTank = Cast<ATank>(InPawn);
+        if ( ! ensure(PossessedTank)) { return; }
+        
+        // Subscribe our local method to the tank's death event
+        PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+        
+    }
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+    UE_LOG(LogTemp, Warning, TEXT("PLAYER: Tank [ %s ] has died."), *GetPawn()->GetName());
+    StartSpectatingOnly();
+}
+
 
 void ATankPlayerController::Tick( float DeltaSeconds )
 {
@@ -58,7 +81,7 @@ bool ATankPlayerController::GetCrosshairTraceHit(FString& ObjectHit, FVector& Hi
     auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
     FHitResult HitResult;
     
-    bHit = GetHitResultAtScreenPosition(ScreenLocation, ECollisionChannel::ECC_WorldStatic, false, HitResult);
+    bHit = GetHitResultAtScreenPosition(ScreenLocation, ECollisionChannel::ECC_Camera, false, HitResult);
     
     if ( bHit )
     {

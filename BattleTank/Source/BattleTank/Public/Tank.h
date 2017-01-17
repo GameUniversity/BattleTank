@@ -5,6 +5,11 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+
+// define delegate
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
+
 // enum for tank aiming states
 UENUM()
 enum class ETankHealthState : uint8
@@ -33,17 +38,27 @@ public:
     // Returns current health as a percentage between 0 and 1
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetHealthPercent() const;
+    
+    UFUNCTION(BlueprintPure, Category = "Health")
+    int32 GetCurrentHealth() const;
+    
+    UFUNCTION(BlueprintPure, Category = "Health")
+    int32 GetStartingHealth() const;
+    
+    FTankDelegate OnDeath;
+
 
 protected:
     UPROPERTY(BlueprintReadOnly, Category = "State" )
     ETankHealthState TankHealthState = ETankHealthState::Green;
+    
+
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
-
-    UPROPERTY(EditDefaultsOnly, Category = "Setup")
-    int32 StartingHealth = 100.0;
+    virtual void BeginPlay() override;
+    
     
     // while current health percentage is greater than value, consider it status green.
     // @see ETankHealthState
@@ -68,10 +83,11 @@ private:
     UPROPERTY(EditDefaultsOnly, Category = "Setup")
     float HealthThresholdDead = 0.0;
     
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
+    int32 StartingHealth = 100;
     
     UPROPERTY(VisibleAnywhere, Category = "Health")
-    int32 CurrentHealth = StartingHealth;
+    int32 CurrentHealth;
     
- 
     
 };

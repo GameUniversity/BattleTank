@@ -12,6 +12,13 @@ ATank::ATank()
 
 }
 
+void ATank::BeginPlay()
+{
+    Super::BeginPlay();
+    CurrentHealth = StartingHealth;
+}
+
+
 float ATank::TakeDamage
 (
          float DamageAmount,
@@ -25,19 +32,13 @@ float ATank::TakeDamage
     
     CurrentHealth-=DamageToApply;
     
-    // perform any death sequence if necessary
-    if ( CurrentHealth <= 0 )
-    {
-        UE_LOG(LogTemp, Warning, TEXT("%s Tank Dies"), *GetName());
-    }
-    
-    
     // update current health state
     float LocalHP = GetHealthPercent();
-    UE_LOG(LogTemp, Warning, TEXT("    %s Health Percent : %.2f"), *GetName(), LocalHP);
+    //UE_LOG(LogTemp, Warning, TEXT("    %s Health Percent : %.2f"), *GetName(), LocalHP);
     if ( LocalHP <= HealthThresholdDead )
     {
         TankHealthState = ETankHealthState::Dead;
+        OnDeath.Broadcast();
         //UE_LOG(LogTemp, Warning, TEXT("    %s SET DEAD"), *GetName());
     }
     else if ( LocalHP <= HealthThresholdCritical )
@@ -64,5 +65,16 @@ float ATank::GetHealthPercent() const
 {
     return (float)CurrentHealth / (float)StartingHealth;
 }
+
+int32 ATank::GetCurrentHealth() const
+{
+    return CurrentHealth;
+}
+
+int32 ATank::GetStartingHealth() const
+{
+    return StartingHealth;
+}
+
 
 
